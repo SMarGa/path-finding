@@ -2,7 +2,7 @@
   <div class="grid" :class="gridClass" :style="gridStyle">
     <div v-for="(row, rowIndex) in grid.nodes" :key="rowIndex" class="row">
       <div v-for="(node, nodeIndex) in row" :key="nodeIndex" class="node">
-        <Node :node="node" />
+        <Node :node="node" @click="handleNodeClick(node.position.x, node.position.y)" />
       </div>
     </div>
   </div>
@@ -11,11 +11,19 @@
 <script setup lang="ts">
 import { Grid } from '@/domain/grid'
 import { computed } from 'vue'
-import Node from './node.vue'
+import Node from './Node.vue'
 
 const props = defineProps<{
   grid: Grid
 }>()
+
+const emit = defineEmits<{
+  'node-click': [x: number, y: number]
+}>()
+
+function handleNodeClick(x: number, y: number) {
+  emit('node-click', x, y)
+}
 
 const gridClass = computed(() => {
   return {

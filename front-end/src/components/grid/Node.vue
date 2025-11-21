@@ -1,13 +1,25 @@
 <template>
-  <div class="node" :class="nodeClass" :style="nodeStyle"></div>
+  <div class="node" :class="nodeClass" :style="nodeStyle" @click="handleClick"></div>
 </template>
 
 <script setup lang="ts">
 import { Node, NodeType } from '@/domain/node'
 import { computed } from 'vue'
+import { useState } from '@/stores/state'
+
 const props = defineProps<{
   node: Node
 }>()
+
+const state = useState()
+
+const emit = defineEmits<{
+  click: []
+}>()
+
+function handleClick() {
+  emit('click')
+}
 
 const nodeClass = computed(() => {
   return {
@@ -50,6 +62,10 @@ const nodeStyle = computed(() => {
     height: `100%`,
     border: `1px solid #000`,
     backgroundColor: bg_Color,
+    cursor:
+      state.is_selecting_start || state.is_selecting_end || state.is_selecting_wall
+        ? 'pointer'
+        : 'default',
   }
 })
 </script>
