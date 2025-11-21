@@ -1,4 +1,4 @@
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
 
 export const useState = defineStore('state', () => {
@@ -8,6 +8,18 @@ export const useState = defineStore('state', () => {
   const is_selecting_path = ref(false)
   const is_selecting_empty = ref(false)
   const is_selecting_visited = ref(false)
+
+  const is_selecting = computed(() => {
+    return (
+      is_selecting_start.value ||
+      is_selecting_end.value ||
+      is_selecting_wall.value ||
+      is_selecting_path.value ||
+      is_selecting_empty.value ||
+      is_selecting_visited.value
+    )
+  })
+
   function setIsSelectingStart(value: boolean) {
     is_selecting_start.value = value
   }
@@ -27,6 +39,7 @@ export const useState = defineStore('state', () => {
     is_selecting_visited.value = value
   }
   return {
+    is_selecting,
     setIsSelectingStart,
     setIsSelectingEnd,
     setIsSelectingWall,

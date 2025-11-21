@@ -7,18 +7,18 @@ import { Node, NodeType } from '@/domain/node'
 import { computed } from 'vue'
 import { useState } from '@/stores/state'
 
+const state = useState()
+
 const props = defineProps<{
   node: Node
 }>()
 
-const state = useState()
-
 const emit = defineEmits<{
-  click: []
+  'node-click': [x: number, y: number]
 }>()
 
 function handleClick() {
-  emit('click')
+  emit('node-click', props.node.position.x, props.node.position.y)
 }
 
 const nodeClass = computed(() => {
@@ -57,15 +57,24 @@ const nodeStyle = computed(() => {
       break
   }
 
-  return {
+  const data: {
+    width: string
+    height: string
+    border: string
+    backgroundColor: string
+    cursor?: string
+    on_hover?: () => void
+  } = {
     width: `100%`,
     height: `100%`,
     border: `1px solid #000`,
     backgroundColor: bg_Color,
-    cursor:
-      state.is_selecting_start || state.is_selecting_end || state.is_selecting_wall
-        ? 'pointer'
-        : 'default',
   }
+
+  if (state.is_selecting) {
+    data['cursor'] = 'pointer'
+  }
+
+  return data
 })
 </script>

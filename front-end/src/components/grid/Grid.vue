@@ -2,7 +2,7 @@
   <div class="grid" :class="gridClass" :style="gridStyle">
     <div v-for="(row, rowIndex) in grid.nodes" :key="rowIndex" class="row">
       <div v-for="(node, nodeIndex) in row" :key="nodeIndex" class="node">
-        <Node :node="node" @click="handleNodeClick(node.position.x, node.position.y)" />
+        <Node :node="node" @node-click="emit('node-click', node.position.x, node.position.y)" />
       </div>
     </div>
   </div>
@@ -10,6 +10,7 @@
 
 <script setup lang="ts">
 import { Grid } from '@/domain/grid'
+import { Node as GridNode } from '@/domain/node'
 import { computed } from 'vue'
 import Node from './Node.vue'
 
@@ -21,10 +22,6 @@ const emit = defineEmits<{
   'node-click': [x: number, y: number]
 }>()
 
-function handleNodeClick(x: number, y: number) {
-  emit('node-click', x, y)
-}
-
 const gridClass = computed(() => {
   return {
     grid: true,
@@ -33,9 +30,6 @@ const gridClass = computed(() => {
 
 const gridStyle = computed(() => {
   return {
-    width: `100%`,
-    height: `100%`,
-    padding: `25px`,
     display: `grid`,
     placeItems: `center`,
     gridTemplateColumns: `repeat(${props.grid.width}, 1fr)`,
@@ -45,13 +39,20 @@ const gridStyle = computed(() => {
 </script>
 
 <style scoped>
+.grid {
+  box-sizing: border-box;
+  padding: 1rem;
+}
+
 .row {
   width: 100%;
   height: 100%;
+  min-height: 0;
 }
 
 .node {
   width: 100%;
   height: 100%;
+  min-height: 0;
 }
 </style>

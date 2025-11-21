@@ -28,7 +28,7 @@ header {
   border-bottom: 1px solid var(--color-border);
   line-height: 1.5;
   width: 100%;
-  height: 100px;
+  height: 5%;
 }
 
 nav {
@@ -85,7 +85,7 @@ nav a:first-of-type {
 }
 
 .app {
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
 }
 </style>
