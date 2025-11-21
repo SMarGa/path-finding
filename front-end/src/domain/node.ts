@@ -32,6 +32,11 @@ export class Node {
     this._isEmpty = false
   }
 
+  static generateBlankNode(position: { x: number; y: number }): Node {
+    const id = `node-${position.x}-${position.y}`
+    return new Node(id, NodeType.empty, position)
+  }
+
   public get id(): string {
     return this._id
   }
