@@ -34,7 +34,8 @@ export class Node {
 
   static generateBlankNode(position: { x: number; y: number }): Node {
     const id = `node-${position.x}-${position.y}`
-    return new Node(id, NodeType.empty, position)
+    const randomNodeType = NodeType.empty
+    return new Node(id, randomNodeType, position)
   }
 
   public get id(): string {
